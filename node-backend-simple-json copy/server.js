@@ -2,7 +2,8 @@ const http = require('http');
 const fs = require('fs')
 const url = require('url');
 const querystring = require('querystring');
-const figlet = require('figlet')
+const figlet = require('figlet');
+const { log } = require('console');
 
 const server = http.createServer(function(req, res) {
   const page = url.parse(req.url).pathname;
@@ -15,42 +16,35 @@ const server = http.createServer(function(req, res) {
       res.end();
     });
   }
-  else if (page == '/otherpage') {
-    fs.readFile('otherpage.html', function(err, data) {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data);
-      res.end();
-    });
-  }
-  else if (page == '/otherotherpage') {
-    fs.readFile('otherotherpage.html', function(err, data) {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data);
-      res.end();
-    });
-  }
+
   else if (page == '/api') {
-    if('student' in params){
-      if(params['student']== 'leon'){
+  const palindrome = params['word']
+  console.log(palindrome)
+  const palindromeAgain = Array.from(palindrome).reverse().join("")
+  console.log(palindromeAgain)
+  
+ 
+ 
+    if('word' in params){
+      console.log(palindrome, palindromeAgain)
+      if(palindrome== palindromeAgain){
         res.writeHead(200, {'Content-Type': 'application/json'});
         const objToJson = {
-          name: "leon",
-          status: "Boss Man",
-          currentOccupation: "Baller"
+          result: palindromeAgain,
+          display: "This word is a palindrome"
         }
         res.end(JSON.stringify(objToJson));
-      }//student = leon
-      else if(params['student'] != 'leon'){
+      }
+      else if(palindrome != palindromeAgain){
         res.writeHead(200, {'Content-Type': 'application/json'});
         const objToJson = {
-          name: "unknown",
-          status: "unknown",
-          currentOccupation: "unknown"
+          result: palindromeAgain,
+          display: "This word is NOT a palindrome",
         }
         res.end(JSON.stringify(objToJson));
-      }//student != leon
-    }//student if
-  }//else if
+      }
+    }
+  }
   else if (page == '/css/style.css'){
     fs.readFile('css/style.css', function(err, data) {
       res.write(data);
@@ -76,3 +70,26 @@ const server = http.createServer(function(req, res) {
 });
 
 server.listen(8000);
+//notes to self:
+ /* notes for guidance:  else if (page == '/api') {
+    const coinToss = Math.floor(Math.random() * 2)
+    console.log(coinToss)
+    if ('choice' in params) {
+      console.log(params['choice'], coinToss)
+      if (params['choice'] == coinToss) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        const objToJson = {
+          display: "You Win!",
+          results: coinToss,
+
+        }
+        res.end(JSON.stringify(objToJson));
+      }
+  */
+ //pseudo code: i want to say if the input is reversed & are = say palindrome 
+ //mdn notes on reverse
+ //const items = [1, 2, 3];
+//console.log(items); // [1, 2, 3]
+
+//items.reverse();
+//console.log(items); // [3, 2, 1]

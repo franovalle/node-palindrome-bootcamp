@@ -1,16 +1,16 @@
-document.querySelector('#clickMe').addEventListener('click', makeReq)
+document.querySelector('button').addEventListener('click', checkWord)
 
-function makeReq(){
+function checkWord (){
 
-  const userName = document.querySelector("#userName").value;
+  const enterWord = document.querySelector('input').value;
 
-  fetch(`/api?student=${userName}`)
+  fetch(`/api?word=${enterWord}`)
     .then(response => response.json())
     .then((data) => {
       console.log(data);
-      document.querySelector("#personName").textContent = data.name
-      document.querySelector("#personStatus").textContent = data.status
-      document.querySelector("#personOccupation").textContent = data.currentOccupation
+     document.querySelector('h2').textContent = data.display
+     // document.querySelector().textContent = data.status
+     // document.querySelector().textContent = data.currentOccupation
     });
 
 }
